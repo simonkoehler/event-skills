@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-orchestrator I/O Schema",
+  "description": "Machine-readable input/output contract for event-orchestrator",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "scope": {
+          "type": "string",
+          "enum": ["full_conference", "trade_show", "webinar", "internal_event", "custom"],
+          "description": "Composition pattern to use"
+        },
+        "skills_to_include": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Explicit skill list (for custom scope)"
+        },
+        "existing_outputs": {
+          "type": "object",
+          "description": "Outputs from previously completed skills (for partial restart)"
+        }
+      },
+      "required": ["event_type", "event_format", "scope"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "execution_plan": {
+          "type": "object",
+          "properties": {
+            "phases": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "phase": { "type": "integer" },
+                  "skills": { "type": "array", "items": { "type": "string" } },
+                  "parallel": { "type": "boolean" },
+                  "dependencies": { "type": "object" }
+                }
+              }
+            },
+            "execution_mode": { "type": "string", "enum": ["sequential", "parallel", "async"] },
+            "estimated_steps": { "type": "integer" }
+          }
+        },
+        "context_map": {
+          "type": "object",
+          "description": "Which data flows from which skill to which skill"
+        }
+      }
+    }
+  }
+}

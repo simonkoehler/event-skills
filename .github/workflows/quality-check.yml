@@ -1,0 +1,21 @@
+name: Skill Quality Check
+
+on:
+  pull_request:
+    paths:
+      - 'event-*/**'
+      - 'scripts/check-quality.sh'
+  push:
+    branches: [main]
+    paths:
+      - 'event-*/**'
+      - 'scripts/check-quality.sh'
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run quality checks
+        run: bash scripts/check-quality.sh

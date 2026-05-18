@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-speakers I/O Schema",
+  "description": "Machine-readable input/output contract for event-speakers",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_name": { "type": "string" },
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "event_date": { "type": "string", "format": "date" },
+        "session_count": { "type": "integer", "description": "Total expected sessions" },
+        "track_count": { "type": "integer", "description": "Number of parallel tracks" },
+        "sourcing_approach": { "type": "string", "enum": ["cfp", "invitation", "hybrid"], "description": "How speakers are sourced" },
+        "session_formats": { "type": "array", "items": { "type": "string" }, "default": ["keynote", "breakout", "panel", "workshop"] },
+        "speaker_budget": { "type": "number", "description": "Total speaker budget in user's currency" },
+        "content_themes": { "type": "array", "items": { "type": "string" } },
+        "audience_level": { "type": "string", "enum": ["beginner", "intermediate", "advanced", "mixed"], "default": "mixed" },
+        "gdpr_relevant": { "type": "boolean", "description": "EU/EEA event or EU-based speakers" },
+        "travel_budget": { "type": "number" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "event_date", "session_count", "track_count", "content_themes"] },
+            "event-budget": { "type": "array", "items": { "type": "string" }, "default": ["budget_breakdown.categories"], "description": "Extracted from budget category allocations" }
+          }
+        }
+      },
+      "required": ["event_name", "event_type", "event_format", "event_date", "session_count", "track_count", "sourcing_approach"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "speaker_data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "speaker_name": { "type": "string" },
+              "bio_raw": { "type": "string" },
+              "session_title": { "type": "string" },
+              "session_abstract": { "type": "string" },
+              "photo": { "type": "string" },
+              "status": { "type": "string", "enum": ["invited", "confirmed", "declined", "waitlisted"] }
+            }
+          }
+        },
+        "agenda": { "type": "string", "description": "Session schedule with tracks, times, rooms" },
+        "cfp": { "type": "string", "description": "Call for Papers document" },
+        "session_schedule": {
+          "type": "object",
+          "description": "For event-logistics",
+          "properties": {
+            "session_times": { "type": "array", "items": { "type": "string" } },
+            "room_assignments": { "type": "object" },
+            "av_requirements": { "type": "object" },
+            "speaker_travel": { "type": "array", "items": { "type": "object" } }
+          }
+        },
+        "speaker_costs": {
+          "type": "object",
+          "description": "For event-budget",
+          "properties": {
+            "confirmed_fees": { "type": "number" },
+            "travel_estimates": { "type": "number" },
+            "accommodation_costs": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}

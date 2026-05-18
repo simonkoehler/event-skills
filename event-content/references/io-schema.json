@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-content I/O Schema",
+  "description": "Machine-readable input/output contract for event-content",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_name": { "type": "string" },
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "event_date": { "type": "string", "format": "date" },
+        "audience": { "type": "string", "description": "Target audience description" },
+        "objectives": { "type": "array", "items": { "type": "string" } },
+        "tone": { "type": "string", "description": "Brand voice (default: professional, clear, benefit-driven)" },
+        "key_messages": { "type": "array", "items": { "type": "string" } },
+        "content_type": {
+          "type": "string",
+          "enum": ["email", "social", "landing_page", "speaker_bio", "mc_script", "prospectus", "post_event_content", "media_event"],
+          "description": "Type of content to generate"
+        },
+        "speaker_data": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "speaker_name": { "type": "string" },
+              "bio_raw": { "type": "string" },
+              "session_title": { "type": "string" },
+              "session_abstract": { "type": "string" },
+              "photo_url": { "type": "string" }
+            }
+          },
+          "description": "From event-speakers"
+        },
+        "campaign_brief": { "type": "object", "description": "From event-marketing: campaign details" },
+        "registration_details": { "type": "object", "description": "From event-registration: tiers, pricing, URL" },
+        "sponsor_details": { "type": "object", "description": "From event-sponsors: names, tiers, benefits" },
+        "brand_guidelines": { "type": "string" },
+        "event_hashtag": { "type": "string" },
+        "social_platforms": { "type": "array", "items": { "type": "string" }, "default": ["linkedin", "twitter"] },
+        "registration_url": { "type": "string" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_name", "event_type", "event_format", "event_date", "audience_profile", "objectives"] },
+            "event-speakers": { "type": "array", "items": { "type": "string" }, "default": ["speaker_data"] },
+            "event-marketing": { "type": "array", "items": { "type": "string" }, "default": ["campaign_brief"] },
+            "event-registration": { "type": "array", "items": { "type": "string" }, "default": ["registration_details"] },
+            "event-sponsors": { "type": "array", "items": { "type": "string" }, "default": ["sponsor_details"] },
+            "event-exhibition": { "type": "array", "items": { "type": "string" }, "default": ["content_needs", "booth_messaging", "pre_show_campaign"] }
+          }
+        }
+      },
+      "required": ["event_name", "event_type", "event_format", "event_date", "audience", "content_type"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "content_assets": {
+          "type": "object",
+          "properties": {
+            "email_copy": { "type": "array", "items": { "type": "string" } },
+            "social_posts": { "type": "array", "items": { "type": "string" } },
+            "landing_page_copy": { "type": "string" },
+            "speaker_bios": { "type": "array", "items": { "type": "string" } },
+            "session_descriptions": { "type": "array", "items": { "type": "string" } },
+            "mc_script": { "type": "string" },
+            "registration_page_text": { "type": "string" },
+            "confirmation_emails": { "type": "string" },
+            "survey_email": { "type": "string" },
+            "feedback_form_text": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-sponsors I/O Schema",
+  "description": "Machine-readable input/output contract for event-sponsors",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "attendee_count": { "type": "integer" },
+        "audience_profile": { "type": "string" },
+        "event_date": { "type": "string", "format": "date" },
+        "revenue_target": { "type": "number", "description": "Total sponsorship revenue target" },
+        "total_sponsorship_target": { "type": "number", "description": "From event-budget" },
+        "pricing_guidance": { "type": "object", "description": "From event-budget" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "attendee_count", "event_date"] }
+          }
+        }
+      },
+      "required": ["event_type", "event_format", "attendee_count", "audience_profile", "event_date"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "tier_structure": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tier_name": { "type": "string" },
+              "price": { "type": "number" },
+              "slots": { "type": "integer" },
+              "benefits": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "prospectus": { "type": "string" },
+        "sponsor_details": {
+          "type": "object",
+          "description": "For event-content",
+          "properties": {
+            "sponsor_names": { "type": "array", "items": { "type": "string" } },
+            "tier_levels": { "type": "object" },
+            "benefits": { "type": "object" },
+            "prospectus_outline": { "type": "string" }
+          }
+        },
+        "sponsorship_revenue": {
+          "type": "object",
+          "description": "For event-budget",
+          "properties": {
+            "tier_pricing": { "type": "object" },
+            "expected_sponsors": { "type": "object" },
+            "confirmed_revenue": { "type": "number" }
+          }
+        },
+        "exhibitor_requirements": {
+          "type": "object",
+          "description": "For event-logistics",
+          "properties": {
+            "booth_count": { "type": "integer" },
+            "booth_sizes": { "type": "array", "items": { "type": "string" } },
+            "power_needs": { "type": "object" },
+            "load_in_requirements": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}

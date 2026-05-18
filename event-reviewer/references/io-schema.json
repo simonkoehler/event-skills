@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-reviewer I/O Schema",
+  "description": "Machine-readable input/output contract for event-reviewer",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "skill_outputs": {
+          "type": "object",
+          "description": "Outputs from completed skills to validate",
+          "additionalProperties": true
+        },
+        "check_categories": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["numbers", "timeline", "budget", "capacity", "gdpr", "content"]
+          },
+          "description": "Which checks to run (default: all)"
+        }
+      },
+      "required": ["skill_outputs"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "review_summary": {
+          "type": "object",
+          "properties": {
+            "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+            "checks_run": { "type": "integer" },
+            "critical_issues": { "type": "integer" },
+            "warnings": { "type": "integer" }
+          }
+        },
+        "detailed_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "check": { "type": "string" },
+              "rule": { "type": "string" },
+              "expected": { "type": "string" },
+              "actual": { "type": "string" },
+              "status": { "type": "string", "enum": ["pass", "warn", "fail"] },
+              "message": { "type": "string" }
+            }
+          }
+        },
+        "recommended_actions": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ordered list of fixes, critical first"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-registration I/O Schema",
+  "description": "Machine-readable input/output contract for event-registration",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "event_date": { "type": "string", "format": "date" },
+        "attendee_count": { "type": "integer", "description": "Target attendees" },
+        "attendee_count_in_person": { "type": "integer", "description": "In-person attendee count for hybrid events" },
+        "attendee_count_virtual": { "type": "integer", "description": "Virtual attendee count for hybrid events" },
+        "ticket_model": { "type": "string", "enum": ["free", "paid", "freemium", "invite_only"] },
+        "location": { "type": "string" },
+        "break_even_point": { "type": "number", "description": "From event-budget" },
+        "price_benchmarks": { "type": "object", "description": "From event-budget" },
+        "comp_allocation": { "type": "integer", "description": "From event-budget: complimentary tickets" },
+        "registration_target": { "type": "integer", "description": "From event-marketing" },
+        "conversion_benchmarks": { "type": "object", "description": "From event-marketing" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "attendee_count", "event_date"] },
+            "event-budget": { "type": "array", "items": { "type": "string" }, "default": ["pricing_guidance"] }
+          }
+        }
+      },
+      "required": ["event_type", "event_format", "event_date", "attendee_count", "ticket_model", "location"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "registration_form": { "type": "string", "description": "Form fields and layout" },
+        "ticket_tiers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "tier_name": { "type": "string" },
+              "price": { "type": "number" },
+              "benefits": { "type": "array", "items": { "type": "string" } },
+              "capacity": { "type": "integer" }
+            }
+          }
+        },
+        "registration_details": {
+          "type": "object",
+          "description": "For event-content",
+          "properties": {
+            "ticket_tiers": { "type": "array" },
+            "pricing": { "type": "object" },
+            "registration_url": { "type": "string" },
+            "confirmation_fields": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "ticket_revenue": {
+          "type": "object",
+          "description": "For event-budget",
+          "properties": {
+            "tier_pricing": { "type": "object" },
+            "registrations_per_tier": { "type": "object" },
+            "comp_tickets": { "type": "integer" }
+          }
+        },
+        "attendee_data": {
+          "type": "object",
+          "description": "For event-logistics",
+          "properties": {
+            "attendee_count": { "type": "integer" },
+            "check_in_requirements": { "type": "string" },
+            "badge_specs": { "type": "object" }
+          }
+        },
+        "registration_metrics": {
+          "type": "object",
+          "description": "For event-marketing",
+          "properties": {
+            "current_registrations": { "type": "integer" },
+            "conversion_rates": { "type": "object" },
+            "capacity_remaining": { "type": "integer" }
+          }
+        }
+      }
+    }
+  }
+}

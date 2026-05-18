@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-exhibition I/O Schema",
+  "description": "Machine-readable input/output contract for event-exhibition",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_name": { "type": "string", "description": "Name of the event you're attending" },
+        "role": { "type": "string", "enum": ["exhibitor", "sponsor", "speaker", "attendee", "sponsor_and_speaker"] },
+        "booth_size": { "type": "string", "description": "Booth dimensions (e.g., 12m², 6x3m)" },
+        "goals": { "type": "array", "items": { "type": "string" }, "description": "Participation goals (leads, brand awareness, recruitment)" },
+        "budget": { "type": "number", "description": "Total participation budget in user's currency" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "team_size": { "type": "integer", "description": "Number of booth staff" },
+        "target_accounts": { "type": "array", "items": { "type": "string" } },
+        "products_to_demo": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["event_name", "role", "goals", "budget", "event_format"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "participation_plan": { "type": "string" },
+        "booth_plan": { "type": "string" },
+        "staff_briefing": { "type": "string" },
+        "lead_capture_plan": { "type": "string" },
+        "participation_costs": {
+          "type": "object",
+          "description": "For event-budget",
+          "properties": {
+            "booth_cost": { "type": "number" },
+            "travel_cost": { "type": "number" },
+            "materials_cost": { "type": "number" },
+            "total_investment": { "type": "number" }
+          }
+        },
+        "content_needs": {
+          "type": "object",
+          "description": "For event-content",
+          "properties": {
+            "pre_show_emails": { "type": "array", "items": { "type": "string" } },
+            "social_posts": { "type": "array", "items": { "type": "string" } },
+            "booth_messaging": { "type": "string" }
+          }
+        },
+        "performance_data": {
+          "type": "object",
+          "description": "For event-analytics",
+          "properties": {
+            "leads_captured": { "type": "integer" },
+            "meetings_booked": { "type": "integer" },
+            "costs": { "type": "object" },
+            "roi_metrics": { "type": "object" }
+          }
+        },
+        "pre_show_campaign": {
+          "type": "object",
+          "description": "For event-marketing",
+          "properties": {
+            "target_accounts": { "type": "array", "items": { "type": "string" } },
+            "outreach_timeline": { "type": "string" },
+            "channel_plan": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}

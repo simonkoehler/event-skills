@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-planner I/O Schema",
+  "description": "Machine-readable input/output contract for event-planner",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": {
+          "type": "string",
+          "enum": ["conference", "trade_show", "partner_conference", "product_launch", "sko", "developer_conference", "industry_summit", "webinar", "executive_event", "micro_event", "internal_event"],
+          "description": "Type of event to plan"
+        },
+        "event_format": {
+          "type": "string",
+          "enum": ["in-person", "virtual", "hybrid"],
+          "description": "Delivery format"
+        },
+        "attendee_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Expected number of attendees"
+        },
+        "event_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Target event date (ISO 8601)"
+        },
+        "location": {
+          "type": "string",
+          "description": "City or region for the event"
+        },
+        "objectives": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Primary goals for the event"
+        },
+        "budget_envelope": {
+          "type": "number",
+          "description": "Total budget in user's currency"
+        },
+        "team_size": {
+          "type": "integer",
+          "description": "Number of planners available"
+        },
+        "repeat_event": {
+          "type": "boolean",
+          "description": "Whether this is a recurring event"
+        },
+        "industry": {
+          "type": "string",
+          "description": "Industry or sector"
+        }
+      },
+      "required": ["event_type", "event_format", "attendee_count", "event_date", "location", "objectives"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "event_brief": {
+          "type": "object",
+          "description": "Core event brief shared with all downstream skills",
+          "properties": {
+            "event_name": { "type": "string" },
+            "event_type": { "type": "string" },
+            "format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+            "dates": { "type": "string" },
+            "attendee_count": { "type": "integer" },
+            "attendee_count_in_person": { "type": "integer", "description": "In-person attendee count for hybrid events" },
+            "attendee_count_virtual": { "type": "integer", "description": "Virtual attendee count for hybrid events" },
+            "location": { "type": "string" },
+            "objectives": { "type": "array", "items": { "type": "string" } },
+            "budget_envelope": { "type": "number" },
+            "venue_status": { "type": "string", "enum": ["not_started", "shortlisted", "booked"] },
+            "audience_profile": { "type": "string" },
+            "key_messages": { "type": "array", "items": { "type": "string" } },
+            "tone": { "type": "string" },
+            "session_count": { "type": "integer" },
+            "track_count": { "type": "integer" },
+            "audience_level": { "type": "string" },
+            "success_criteria": { "type": "array", "items": { "type": "string" } },
+            "KPI_targets": { "type": "object" },
+            "revenue_target": { "type": "number" },
+            "ticket_model": { "type": "string" }
+          }
+        },
+        "master_timeline": { "type": "string", "description": "T-minus timeline with milestones" },
+        "checklist": { "type": "string", "description": "Planning checklist by phase" },
+        "risk_register": { "type": "string", "description": "Risk assessment with mitigations" }
+      }
+    }
+  }
+}

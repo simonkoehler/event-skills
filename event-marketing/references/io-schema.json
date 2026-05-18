@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-marketing I/O Schema",
+  "description": "Machine-readable input/output contract for event-marketing",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "event_date": { "type": "string", "format": "date" },
+        "audience": { "type": "string" },
+        "attendee_count_in_person": { "type": "integer", "description": "In-person attendee count for hybrid events" },
+        "attendee_count_virtual": { "type": "integer", "description": "Virtual attendee count for hybrid events" },
+        "registration_target": { "type": "integer" },
+        "marketing_budget": { "type": "number", "description": "Total marketing budget in user's currency" },
+        "channel_allocation": { "type": "object", "description": "From event-budget: budget per channel" },
+        "current_registrations": { "type": "integer", "description": "From event-registration" },
+        "capacity": { "type": "integer", "description": "From event-registration" },
+        "conversion_rates": { "type": "object", "description": "From event-registration" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "attendee_count", "event_date", "audience", "registration_target"], "description": "registration_target is derived from attendee_count" },
+            "event-budget": { "type": "array", "items": { "type": "string" }, "default": ["budget_breakdown.categories"], "description": "Extracted from budget category allocations" }
+          }
+        }
+      },
+      "required": ["event_type", "event_format", "event_date", "audience", "registration_target"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "marketing_plan": { "type": "string", "description": "Channel strategy with timeline" },
+        "funnel_model": {
+          "type": "object",
+          "properties": {
+            "awareness_target": { "type": "integer" },
+            "traffic_target": { "type": "integer" },
+            "registration_target": { "type": "integer" },
+            "conversion_goals": { "type": "object" }
+          }
+        },
+        "campaign_briefs": {
+          "type": "array",
+          "description": "For event-content",
+          "items": {
+            "type": "object",
+            "properties": {
+              "campaign_name": { "type": "string" },
+              "audience": { "type": "string" },
+              "channels": { "type": "array", "items": { "type": "string" } },
+              "messaging_pillars": { "type": "array", "items": { "type": "string" } },
+              "timeline": { "type": "string" }
+            }
+          }
+        },
+        "funnel_targets": {
+          "type": "object",
+          "description": "For event-registration",
+          "properties": {
+            "registration_target": { "type": "integer" },
+            "traffic_targets": { "type": "object" },
+            "conversion_goals": { "type": "object" }
+          }
+        },
+        "campaign_data": {
+          "type": "object",
+          "description": "For event-analytics",
+          "properties": {
+            "channel_performance": { "type": "object" },
+            "cost_per_registration": { "type": "number" },
+            "funnel_metrics": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}

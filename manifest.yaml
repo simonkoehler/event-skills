@@ -1,0 +1,284 @@
+collection:
+  name: event-management-skills
+  version: 1.0.0
+  standard: agentskills.io/1.0
+  license: Apache-2.0
+  description: >
+    12 AI agent skills covering the full B2B event lifecycle (10 specialist + 2 meta).
+    Each skill is a self-contained module following the Agent Skills Open Standard.
+  repository: https://github.com/simonkoehler/event-skills
+
+skills:
+  - name: event-planner
+    path: event-planner/SKILL.md
+    role: gateway
+    version: 1
+    version_date: 2026-03-28
+    references: 12
+    assets: 1
+    depends_on: []
+    feeds_into:
+      - event-budget
+      - event-content
+      - event-speakers
+      - event-logistics
+      - event-registration
+      - event-sponsors
+      - event-analytics
+      - event-marketing
+    input_requirements: [event_type, event_format, attendee_count, event_date, location]
+    output_types: [event_brief, timeline, checklist, raci_matrix, risk_register]
+    default_output: event_brief
+
+  - name: event-content
+    path: event-content/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 10
+    assets: 1
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-speakers
+      - event-marketing
+      - event-registration
+      - event-sponsors
+      - event-analytics
+    input_requirements: [event_name, event_type, event_format, event_date, audience, content_type]
+    output_types: [email_sequence, social_posts, landing_page, speaker_bios, mc_script, session_descriptions]
+    default_output: email_sequence
+
+  - name: event-budget
+    path: event-budget/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 4
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-sponsors
+      - event-registration
+      - event-analytics
+      - event-logistics
+    input_requirements: [event_type, event_format, attendee_count, event_date, location]
+    output_types: [budget_breakdown, revenue_forecast, scenario_analysis, pricing_guidance]
+    default_output: budget_breakdown
+
+  - name: event-speakers
+    path: event-speakers/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 4
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-content
+      - event-budget
+      - event-logistics
+    input_requirements: [event_name, event_type, event_format, event_date, session_count, track_count, sourcing_approach]
+    output_types: [cfp, speaker_invitations, review_framework, agenda, speaker_briefing, session_format_guide]
+    default_output: cfp
+
+  - name: event-logistics
+    path: event-logistics/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 7
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-budget
+      - event-speakers
+      - event-exhibition
+    input_requirements: [event_type, event_format, attendee_count, event_date, location]
+    output_types: [venue_evaluation, vendor_documents, run_of_show, on_site_operations, post_event_logistics]
+    default_output: venue_evaluation
+
+  - name: event-registration
+    path: event-registration/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 5
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-content
+      - event-budget
+      - event-logistics
+      - event-marketing
+    input_requirements: [event_type, event_format, attendee_count, event_date]
+    output_types: [registration_flow, ticket_tiers, form_design, confirmation_emails]
+    default_output: registration_flow
+
+  - name: event-sponsors
+    path: event-sponsors/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 3
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-content
+      - event-budget
+      - event-logistics
+    input_requirements: [event_type, event_format, attendee_count, event_date]
+    output_types: [tier_structure, prospectus, outreach_emails, fulfillment_tracker, sponsor_roi_report]
+    default_output: tier_structure
+
+  - name: event-analytics
+    path: event-analytics/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 7
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-content
+      - event-budget
+      - event-sponsors
+    input_requirements: [event_type, event_format, attendee_count, objectives]
+    output_types: [kpi_framework, survey, post_event_report, roi_analysis]
+    default_output: kpi_framework
+
+  - name: event-marketing
+    path: event-marketing/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 4
+    assets: 0
+    depends_on:
+      - event-planner
+    feeds_into:
+      - event-content
+      - event-registration
+      - event-budget
+      - event-analytics
+    input_requirements: [event_type, event_format, attendee_count, event_date, audience]
+    output_types: [channel_plan, campaign_brief, promotion_timeline, registration_funnel]
+    default_output: channel_plan
+
+  - name: event-exhibition
+    path: event-exhibition/SKILL.md
+    role: specialist
+    version: 1
+    version_date: 2026-03-28
+    references: 4
+    assets: 0
+    depends_on: []
+    feeds_into:
+      - event-sponsors
+      - event-logistics
+      - event-analytics
+      - event-marketing
+      - event-content
+      - event-budget
+    input_requirements: [event_name, role, booth_size, goals, budget]
+    output_types: [booth_brief, sponsorship_scorecard, personnel_guide, lead_strategy, pre_show_campaign, post_show_report]
+    default_output: booth_brief
+
+  - name: event-orchestrator
+    path: event-orchestrator/SKILL.md
+    role: meta
+    version: 1
+    version_date: 2026-03-28
+    references: 2
+    assets: 0
+    depends_on: []
+    feeds_into:
+      - event-planner
+      - event-budget
+      - event-content
+      - event-speakers
+      - event-logistics
+      - event-registration
+      - event-sponsors
+      - event-analytics
+      - event-marketing
+      - event-exhibition
+    input_requirements: [user_request]
+    output_types: [workflow_plan, skill_sequence, context_map]
+    default_output: workflow_plan
+
+  - name: event-reviewer
+    path: event-reviewer/SKILL.md
+    role: meta
+    version: 1
+    version_date: 2026-03-28
+    references: 1
+    assets: 0
+    depends_on: []
+    feeds_into: []
+    input_requirements: [skill_outputs]
+    output_types: [review_report, remediation_plan]
+    default_output: review_report
+
+routing:
+  organizing_an_event:
+    - scenario: Plan a conference or summit
+      start: event-planner
+      then: all others as needed
+      conditions:
+        timeline_compressed: { skip: [event-sponsors], note: "No time to sell sponsorships" }
+        budget_minimal: { skip: [event-sponsors, event-exhibition], note: "Focus on core delivery" }
+    - scenario: Plan a webinar
+      start: event-planner
+      then: [event-content, event-registration, event-marketing]
+      skip: [event-logistics, event-sponsors, event-exhibition]
+      note: "Virtual-only — no physical logistics needed"
+    - scenario: Create event content
+      start: event-content
+    - scenario: Build an event budget
+      start: event-budget
+    - scenario: Design a registration flow
+      start: event-registration
+      then: [event-content]
+    - scenario: Create a speaker program
+      start: event-speakers
+      then: [event-content]
+    - scenario: Build sponsorship packages
+      start: event-sponsors
+      then: [event-content]
+    - scenario: Plan event marketing
+      start: event-marketing
+      then: [event-content]
+    - scenario: Plan a hybrid event
+      start: event-planner
+      then: all others as needed
+      conditions:
+        always: { add_contingency: "15-20%", note: "Hybrid complexity premium" }
+
+  participating_in_event:
+    - scenario: Plan a trade show booth
+      start: event-exhibition
+      then: [event-budget, event-content]
+    - scenario: Evaluate a sponsorship package
+      start: event-exhibition
+      then: [event-budget]
+    - scenario: Post-show follow-up and ROI
+      start: event-exhibition
+      then: [event-analytics]
+
+  after_the_event:
+    - scenario: Create a post-event report
+      start: event-analytics
+    - scenario: Calculate ROI
+      start: event-analytics
+      then: [event-budget]
+    - scenario: Full post-event review
+      start: event-analytics
+      then: [event-reviewer]
+      note: "Cross-skill consistency check after all outputs are final"

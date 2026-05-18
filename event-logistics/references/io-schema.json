@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-logistics I/O Schema",
+  "description": "Machine-readable input/output contract for event-logistics",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "event_date": { "type": "string", "format": "date" },
+        "attendee_count": { "type": "integer" },
+        "attendee_count_in_person": { "type": "integer", "description": "In-person attendee count for hybrid events" },
+        "attendee_count_virtual": { "type": "integer", "description": "Virtual attendee count for hybrid events" },
+        "session_count": { "type": "integer" },
+        "venue_status": { "type": "string", "enum": ["not_started", "shortlisted", "booked"] },
+        "venue_budget": { "type": "number", "description": "From event-budget" },
+        "av_budget": { "type": "number" },
+        "catering_budget": { "type": "number" },
+        "vendor_budgets": { "type": "object" },
+        "session_requirements": { "type": "object", "description": "From event-speakers: formats, AV needs, speaker travel" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "attendee_count", "event_date", "location"] },
+            "event-budget": { "type": "array", "items": { "type": "string" }, "default": ["budget_breakdown.categories"], "description": "Extracted from budget category allocations" },
+            "event-speakers": { "type": "array", "items": { "type": "string" }, "default": ["session_count", "av_requirements", "speaker_travel"] }
+          }
+        }
+      },
+      "required": ["event_type", "event_format", "event_date", "attendee_count", "session_count"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "venue_evaluation": { "type": "string", "description": "Venue comparison and recommendation" },
+        "vendor_costs": {
+          "type": "object",
+          "description": "For event-budget",
+          "properties": {
+            "venue_quotes": { "type": "number" },
+            "av_quotes": { "type": "number" },
+            "catering_quotes": { "type": "number" },
+            "vendor_estimates": { "type": "object" }
+          }
+        },
+        "venue_specs": {
+          "type": "object",
+          "description": "For event-speakers",
+          "properties": {
+            "room_capacities": { "type": "object" },
+            "av_capabilities": { "type": "object" },
+            "green_room": { "type": "boolean" },
+            "tech_specs": { "type": "object" }
+          }
+        },
+        "venue_details": {
+          "type": "object",
+          "description": "For event-exhibition",
+          "properties": {
+            "floor_plan": { "type": "string" },
+            "booth_locations": { "type": "array", "items": { "type": "string" } },
+            "load_in_schedule": { "type": "string" }
+          }
+        },
+        "run_of_show": { "type": "string" },
+        "checklist": { "type": "string" }
+      }
+    }
+  }
+}

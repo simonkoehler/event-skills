@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-analytics I/O Schema",
+  "description": "Machine-readable input/output contract for event-analytics",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "event_date": { "type": "string", "format": "date" },
+        "attendee_count": { "type": "integer", "description": "Actual attendees" },
+        "objectives": { "type": "array", "items": { "type": "string" }, "description": "From event-planner" },
+        "success_criteria": { "type": "array", "items": { "type": "string" } },
+        "KPI_targets": { "type": "object" },
+        "financial_data": {
+          "type": "object",
+          "description": "From event-budget",
+          "properties": {
+            "total_cost": { "type": "number" },
+            "revenue": { "type": "number" },
+            "budget_vs_actual": { "type": "object" }
+          }
+        },
+        "attendance_data": {
+          "type": "object",
+          "description": "From event-registration",
+          "properties": {
+            "registrations": { "type": "integer" },
+            "attendees": { "type": "integer" },
+            "no_shows": { "type": "integer" },
+            "by_tier": { "type": "object" }
+          }
+        },
+        "sponsor_data": {
+          "type": "object",
+          "description": "From event-sponsors",
+          "properties": {
+            "deliverables_fulfilled": { "type": "object" },
+            "booth_traffic": { "type": "object" },
+            "sponsor_satisfaction": { "type": "object" }
+          }
+        },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "attendee_count", "objectives"] },
+            "event-budget": { "type": "array", "items": { "type": "string" }, "default": ["total_budget", "category_allocations", "revenue_targets"] },
+            "event-exhibition": {
+              "type": "object",
+              "description": "Required for trade show / exhibition ROI analysis",
+              "properties": {
+                "lead_target": { "type": "integer" },
+                "participation_costs": { "type": "object" },
+                "booth_metrics": { "type": "object" }
+              }
+            }
+          }
+        }
+      },
+      "required": ["event_type", "event_format", "event_date", "attendee_count"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "kpi_dashboard": { "type": "object", "description": "Key metrics and benchmarks" },
+        "roi_calculation": {
+          "type": "object",
+          "properties": {
+            "total_roi": { "type": "number" },
+            "cost_per_attendee": { "type": "number" },
+            "cost_per_lead": { "type": "number" },
+            "pipeline_generated": { "type": "number" }
+          }
+        },
+        "post_event_report": { "type": "string" },
+        "survey_results": { "type": "object" },
+        "lessons_learned": {
+          "type": "object",
+          "description": "For event-planner",
+          "properties": {
+            "what_worked": { "type": "array", "items": { "type": "string" } },
+            "what_failed": { "type": "array", "items": { "type": "string" } },
+            "recommendations_for_next": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "report_content": {
+          "type": "object",
+          "description": "For event-content",
+          "properties": {
+            "survey_results": { "type": "object" },
+            "key_metrics": { "type": "object" },
+            "testimonial_quotes": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "financial_actuals": {
+          "type": "object",
+          "description": "For event-budget",
+          "properties": {
+            "actual_cost_per_attendee": { "type": "number" },
+            "actual_roi": { "type": "number" },
+            "variance_data": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}

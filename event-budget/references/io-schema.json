@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "event-budget I/O Schema",
+  "description": "Machine-readable input/output contract for event-budget",
+  "type": "object",
+  "properties": {
+    "input": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string", "description": "Type of event" },
+        "event_format": { "type": "string", "enum": ["in-person", "virtual", "hybrid"] },
+        "attendee_count": { "type": "integer", "description": "Expected attendees" },
+        "attendee_count_in_person": { "type": "integer", "description": "In-person attendee count for hybrid events" },
+        "attendee_count_virtual": { "type": "integer", "description": "Virtual attendee count for hybrid events" },
+        "event_date": { "type": "string", "format": "date" },
+        "location": { "type": "string" },
+        "budget_envelope": { "type": "number", "description": "Total budget in user's currency (if known)" },
+        "revenue_model": { "type": "string", "enum": ["tickets_only", "sponsors_only", "mixed", "free", "internal"], "description": "How the event generates revenue. internal: department-funded cost center, no revenue projections needed" },
+        "speaker_count": { "type": "integer" },
+        "venue_status": { "type": "string", "enum": ["not_started", "shortlisted", "booked"] },
+        "venue_cost": { "type": "number", "description": "Actual venue cost if booked" },
+        "sponsor_revenue_confirmed": { "type": "number" },
+        "currency": { "type": "string", "description": "User's currency — ask if not specified" },
+        "previous_event_data": { "type": "object", "description": "Actuals from prior edition" },
+        "tier_pricing": { "type": "object", "description": "From event-sponsors: tier pricing and expected sponsors" },
+        "ticket_revenue": { "type": "object", "description": "From event-registration: tier pricing and registrations" },
+        "vendor_costs": { "type": "object", "description": "From event-logistics: venue, AV, catering quotes" },
+        "required_from": {
+          "type": "object",
+          "description": "Fields that should be provided by upstream skills for best results",
+          "properties": {
+            "event-planner": { "type": "array", "items": { "type": "string" }, "default": ["event_type", "event_format", "attendee_count", "event_date", "location"] },
+            "event-sponsors": { "type": "array", "items": { "type": "string" }, "default": ["tier_pricing"] },
+            "event-registration": { "type": "array", "items": { "type": "string" }, "default": ["ticket_revenue"] },
+            "event-logistics": { "type": "array", "items": { "type": "string" }, "default": ["vendor_costs"] },
+            "event-exhibition": { "type": "array", "items": { "type": "string" }, "default": ["participation_costs"] }
+          }
+        }
+      },
+      "required": ["event_type", "event_format", "attendee_count", "event_date", "location"]
+    },
+    "output": {
+      "type": "object",
+      "properties": {
+        "budget_breakdown": {
+          "type": "object",
+          "description": "Full budget with category allocations",
+          "properties": {
+            "total_budget": { "type": "number" },
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "category": { "type": "string" },
+                  "amount": { "type": "number" },
+                  "percentage": { "type": "number" }
+                }
+              }
+            },
+            "contingency_reserve": { "type": "number" },
+            "cost_per_attendee": { "type": "number" }
+          }
+        },
+        "revenue_forecast": {
+          "type": "object",
+          "properties": {
+            "total_revenue": { "type": "number" },
+            "total_sponsorship_target": { "type": "number" },
+            "per_tier_targets": { "type": "object" },
+            "ticket_revenue": { "type": "number" },
+            "break_even_point": { "type": "integer", "description": "Attendees needed to break even" }
+          }
+        },
+        "scenario_analysis": { "type": "string", "description": "Lean / standard / premium scenarios" },
+        "pricing_guidance": {
+          "type": "object",
+          "properties": {
+            "break_even_point": { "type": "number" },
+            "price_benchmarks": { "type": "object" },
+            "comp_allocation": { "type": "integer" }
+          }
+        },
+        "vendor_budget_per_category": { "type": "object" },
+        "financial_baseline": {
+          "type": "object",
+          "description": "For event-analytics",
+          "properties": {
+            "total_budget": { "type": "number" },
+            "category_allocations": { "type": "object" },
+            "revenue_targets": { "type": "object" }
+          }
+        }
+      }
+    }
+  }
+}
