@@ -1,3 +1,5 @@
+![Run your next B2B event with a team of 12 AI agents](./assets/event-skills.png)
+
 # Event Management Skills
 
 **The first comprehensive event management skill collection for Claude and compatible AI agents.**
@@ -9,26 +11,62 @@
 
 ## What This Is
 
-Twelve AI agent skills (10 specialist + 2 meta) covering the complete B2B event lifecycle — from initial concept through post-event analytics. Each skill is a self-contained module with structured prompts, reference data, and quality gates. Together they handle conferences, trade shows, product launches, sales kickoffs, developer conferences, industry summits, roadshows, VIP events, webinars, and community meetups.
+12 AI agent skills (10 specialist + 2 meta) covering the complete B2B event lifecycle — from initial concept through post-event analytics. Each skill is a self-contained module with structured prompts, reference data, and quality gates. Together they handle conferences, trade shows, product launches, sales kickoffs, developer conferences, industry summits, roadshows, VIP events, webinars, and community meetups.
 
 Built for event managers, marketing teams, and operations professionals who plan and execute B2B events. Event management has been underserved in the AI skills ecosystem. This collection changes that.
 
 ## Skills
 
-| Skill | Role | What it does | Refs |
-|-------|------|-------------|------|
-| [event-planner](./event-planner/) | Gateway | Strategic planning, timelines, checklists, RACI matrices, risk registers | 12 |
-| [event-content](./event-content/) | Specialist | Emails, social posts, website copy, MC scripts, anti-AI writing standards | 10 |
-| [event-budget](./event-budget/) | Specialist | Budget breakdowns, calibration-based benchmarks, scenario modeling, ROI forecasts | 4 |
-| [event-speakers](./event-speakers/) | Specialist | CFP creation, speaker outreach, agenda building, diversity framework | 4 |
-| [event-logistics](./event-logistics/) | Specialist | Venue evaluation, vendor RFPs, run-of-show, emergency procedures | 7 |
-| [event-registration](./event-registration/) | Specialist | Registration forms, ticket tiers, check-in operations, GDPR compliance | 5 |
-| [event-sponsors](./event-sponsors/) | Specialist | Sponsorship packages, prospectus documents, exhibitor guides, fulfillment | 3 |
-| [event-analytics](./event-analytics/) | Specialist | KPI frameworks, post-event surveys, ROI calculations, lessons learned | 7 |
-| [event-marketing](./event-marketing/) | Specialist | Promotion strategy, channel playbooks, registration funnels, campaign briefs | 4 |
-| [event-exhibition](./event-exhibition/) | Specialist | Trade show booth planning, sponsorship evaluation, lead capture, post-show ROI | 4 |
-| [event-orchestrator](./event-orchestrator/) | Meta | Multi-skill workflow coordination, conditional routing, failure recovery | 2 |
-| [event-reviewer](./event-reviewer/) | Meta | Cross-skill consistency checks, prescriptive remediation | 1 |
+Organized by the four phases of an event lifecycle. Every skill is self-contained — pick the ones you need.
+
+### 01 · Plan
+
+| Skill | What it does |
+|---|---|
+| [event-planner](./event-planner/) | Strategic planning, timelines, checklists, RACI matrices, risk registers |
+| [event-budget](./event-budget/) | Budget breakdowns, calibration-based benchmarks, scenario modeling, ROI forecasts |
+| [event-speakers](./event-speakers/) | CFP creation, speaker outreach, agenda building, diversity framework |
+| [event-sponsors](./event-sponsors/) | Sponsorship packages, prospectus documents, exhibitor guides, fulfillment |
+
+### 02 · Promote
+
+| Skill | What it does |
+|---|---|
+| [event-marketing](./event-marketing/) | Promotion strategy, channel playbooks, registration funnels, campaign briefs |
+| [event-content](./event-content/) | Emails, social posts, website copy, MC scripts, anti-AI writing standards |
+| [event-registration](./event-registration/) | Registration forms, ticket tiers, check-in operations, GDPR compliance |
+
+### 03 · Execute
+
+| Skill | What it does |
+|---|---|
+| [event-logistics](./event-logistics/) | Venue evaluation, vendor RFPs, run-of-show, emergency procedures |
+| [event-exhibition](./event-exhibition/) | Trade show booth planning, sponsorship evaluation, lead capture, post-show ROI |
+
+### 04 · Measure
+
+| Skill | What it does |
+|---|---|
+| [event-analytics](./event-analytics/) | KPI frameworks, post-event surveys, ROI calculations, lessons learned |
+
+### Meta
+
+| Skill | What it does |
+|---|---|
+| [event-orchestrator](./event-orchestrator/) | Multi-skill workflow coordination, conditional routing, failure recovery |
+| [event-reviewer](./event-reviewer/) | Cross-skill consistency checks, prescriptive remediation |
+
+## What makes this different
+
+**Standalone, not monolithic.** Every skill works on its own — `event-content` doesn't need `event-planner`. Take one, take all 12.
+
+**Anti-AI writing standard.** Content-generating skills pass through a writing-quality gate before output: no uniform sentence lengths, no formulaic transitions, no symmetrical bullet lists, no hype tone. Copy you can actually send.
+
+**Progressive disclosure.** A skill activation costs roughly 500–2,000 tokens for the workflow, plus only the reference data the specific request needs. No oversized prompts.
+
+**Verification gates, not vibes.** Every skill has a Step 3.5 quality check before presenting output. Budgets balance, timelines are dependency-correct, risk registers cover the right categories.
+
+**Real test scenarios.** The skills were stress-tested across a range of B2B event formats — flagship conferences, partner co-marketing, lead-gen webinars, trade-show booths, executive dinners, multi-country roadshows, and C-level roundtables.
 
 ## Installation
 
