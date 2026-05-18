@@ -9,12 +9,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Skills 
 ## [v1] — 2026-03-28
 
 ### Collection
-- **Added** SOUL.md — agent identity, voice, decision principles, conflict resolution, cultural awareness
 - **Added** manifest.yaml — machine-readable skill registry with dependencies and routing tables
 - **Added** gdpr-policy.md — unified GDPR policy as single source of truth across all skills
 - **Added** CHANGELOG.md — versioning and change tracking
-- **Added** CLAUDE.md — development conventions and quality checklist
-- **Added** Security boundaries in CLAUDE.md
 
 ### Skills (all 12)
 - **Added** `io_schema: references/io-schema.json` — machine-readable JSON Schema for input/output contracts
@@ -40,14 +37,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Skills 
 ### Data Consistency
 - **Fixed** CPL benchmarks aligned between event-budget and event-analytics (Average/Good/Excellent tiers)
 - **Fixed** Email open rates split into general B2B (20-35%) vs event-specific (36-42%)
-- **Fixed** Venue benchmark in landingpage.html (25-30% → 25-35%)
-
-### Tests
-- **Added** Disambiguation tests for 5 critical overlap pairs in trigger-queries.md
-- **Added** Format-specific trigger tests (virtual, hybrid, ROI timing)
-- **Added** Trigger tests for event-orchestrator and event-reviewer
-- **Added** tests/integration-flows.md — 5 end-to-end workflow tests
-- **Added** tests/output-quality.md — quality rubrics for all specialist skills
+- **Fixed** Venue benchmark consistency (25-30% → 25-35%)
 
 ### Descriptions
 - **Changed** event-sponsors: clarified organizer perspective in description

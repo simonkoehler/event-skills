@@ -94,7 +94,7 @@ See [COLLECTION.md](./COLLECTION.md) for a detailed map of how the 12 skills con
 
 ## Contributing
 
-PRs welcome. Every skill must pass the quality checklist in [CLAUDE.md](./CLAUDE.md) before merging:
+PRs welcome. Every skill must pass this quality checklist before merging:
 
 - SKILL.md under 500 lines
 - YAML description under 1,024 characters
